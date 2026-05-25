@@ -47,7 +47,35 @@ const app = express();
 MIDDLEWARES
 */
 
-app.use(cors());
+const rawCorsOrigins =
+  process.env.CORS_ORIGINS || '';
+
+const corsOrigins =
+  rawCorsOrigins
+    .split(',')
+    .map((o)=>o.trim())
+    .filter(Boolean);
+
+if(corsOrigins.length > 0){
+
+  app.use(cors({
+
+    origin:(origin,cb)=>{
+      if(!origin) return cb(null,true);
+      if(corsOrigins.includes(origin)) return cb(null,true);
+      return cb(new Error('Not allowed by CORS'));
+    },
+
+    credentials:true
+
+  }));
+
+}
+else{
+
+  app.use(cors());
+
+}
 
 app.use(express.json());
 

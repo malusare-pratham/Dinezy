@@ -6,10 +6,19 @@ const connectedUsers = new Map();
 
 export const initSocket = (server) => {
 
+  const rawCorsOrigins =
+    process.env.CORS_ORIGINS || '';
+
+  const corsOrigins =
+    rawCorsOrigins
+      .split(',')
+      .map((o)=>o.trim())
+      .filter(Boolean);
+
   io = new Server(server, {
 
     cors:{
-      origin:'*',
+      origin:corsOrigins.length > 0 ? corsOrigins : '*',
       methods:['GET','POST']
     }
 
