@@ -1,0 +1,225 @@
+FRONTEND STRUCTURE 
+
+
+client/
+│
+├── public/
+│
+├── src/
+│   ├── assets/
+│   │   ├── images/
+│   │   └── icons/
+│   │
+│   ├── components/
+│   │   ├── common/
+│   │   ├── dashboard/
+│   │   ├── pos/
+│   │   ├── kitchen/
+│   │   ├── tables/
+│   │   ├── menu/
+│   │   ├── billing/
+│   │   └── reports/
+│   │
+│   ├── pages/
+│   │   ├── auth/
+│   │   ├── owner/
+│   │   ├── manager/
+│   │   ├── captain/
+│   │   └── kitchen/
+│   │
+│   ├── layouts/
+│   │   ├── DashboardLayout.jsx
+│   │   └── AuthLayout.jsx
+│   │
+│   ├── redux/
+│   │   ├── store.js
+│   │   └── slices/
+│   │
+│   ├── routes/
+│   │   └── AppRoutes.jsx
+│   │
+│   ├── services/
+│   │   ├── api.js
+│   │   ├── authService.js
+│   │   ├── kotService.js
+│   │   └── menuService.js
+│   │
+│   ├── socket/
+│   │   └── socket.js
+│   │
+│   ├── styles/
+│   │   ├── global.css
+│   │   ├── dashboard.css
+│   │   ├── pos.css
+│   │   ├── kitchen.css
+│   │   ├── tables.css
+│   │   └── billing.css
+│   │
+│   ├── utils/
+│   │   ├── constants.js
+│   │   ├── formatCurrency.js
+│   │   └── generateToken.js
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+│
+├── package.json
+└── vite.config.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+src/
+│
+├── components/
+│   ├── common/
+│   │   ├── Sidebar.jsx
+│   │   ├── Sidebar.css
+│   │   ├── Header.jsx
+│   │   └── Header.css
+│   │
+│   ├── dashboard/
+│   │   ├── DashboardCard.jsx
+│   │   └── DashboardCard.css
+│   │
+│   ├── tables/
+│   │   ├── TableCard.jsx
+│   │   └── TableCard.css
+│   │
+│   ├── kitchen/
+│   │   ├── KOTCard.jsx
+│   │   └── KOTCard.css
+│   │
+│   ├── pos/
+│   │   ├── PosItem.jsx
+│   │   └── PosItem.css
+│
+├── pages/
+│   ├── auth/
+│   │   ├── Login.jsx
+│   │   └── Login.css
+│   │
+│   ├── owner/
+│   │   └── OwnerDashboard.jsx
+│   │
+│   ├── manager/
+│   │   └── ManagerDashboard.jsx
+│   │
+│   ├── captain/
+│   │   └── CaptainDashboard.jsx
+│   │
+│   └── kitchen/
+│       └── KitchenDashboard.jsx
+│
+├── routes/
+│   └── AppRoutes.jsx
+│
+├── App.jsx
+├── main.jsx
+└── index.css
+
+
+
+
+
+BACKEND STRUCTURE
+
+
+
+server/
+│
+├── src/
+│   ├── config/
+│   │   ├── db.js
+│   │   └── socket.js
+│   │
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── menuController.js
+│   │   ├── kotController.js
+│   │   ├── tableController.js
+│   │   ├── billController.js
+│   │   └── reportController.js
+│   │
+│   ├── middleware/
+│   │   ├── authMiddleware.js
+│   │   ├── roleMiddleware.js
+│   │   └── errorMiddleware.js
+│   │
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Menu.js
+│   │   ├── Table.js
+│   │   ├── KOT.js
+│   │   ├── Bill.js
+│   │   ├── Payment.js
+│   │   └── Customer.js
+│   │
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── menuRoutes.js
+│   │   ├── kotRoutes.js
+│   │   ├── tableRoutes.js
+│   │   ├── billRoutes.js
+│   │   └── reportRoutes.js
+│   │
+│   ├── services/
+│   │   ├── socketService.js
+│   │   ├── billingService.js
+│   │   └── reportService.js
+│   │
+│   ├── sockets/
+│   │   └── kotSocket.js
+│   │
+│   ├── utils/
+│   │   ├── generateBillNumber.js
+│   │   ├── generateKOT.js
+│   │   └── calculateGST.js
+│   │
+│   ├── app.js
+│   └── server.js
+│
+├── package.json
+└── .env
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

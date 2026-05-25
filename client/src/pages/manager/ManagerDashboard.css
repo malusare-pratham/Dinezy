@@ -1,0 +1,138 @@
+.manager-dashboard {
+  background-color: transparent;
+  min-height: auto;
+  padding: 0;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header */
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.sub-title {
+  color: #666;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 5px;
+}
+
+.dash-header h1 {
+  font-size: 28px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.report-btn {
+  background-color: #00a884;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-clock {
+  color: #444;
+  font-size: 13px;
+  margin-left: 15px;
+}
+
+/* Stats Cards */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  background: #111;
+  border: 1px solid #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.label {
+  color: #555;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.val {
+  font-size: 26px;
+  margin: 0;
+}
+
+.sub-val {
+  color: #333;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Card Colors */
+.card-sales .val { color: #ff4d24; }
+.yellow { color: #f1c40f; }
+.green { color: #2ecc71; }
+.blue { color: #3498db; }
+
+.icon { font-size: 20px; opacity: 0.6; }
+.card-sales .icon { color: #ff4d24; }
+.card-tax .icon { color: #f1c40f; }
+.card-bills .icon { color: #2ecc71; }
+.card-orders .icon { color: #3498db; }
+
+/* Content Grid */
+.main-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.box {
+  background: #111;
+  border: 1px solid #1a1a1a;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.box-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.box-header h3 {
+  color: #888;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Top Items List */
+.item-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.item-row:last-child { border: none; }
+
+.rank { width: 30px; color: #444; font-size: 14px; }
+.name { flex: 1; color: #ccc; font-size: 15px; }
+.count { color: #ff4d24; font-weight: 700; }

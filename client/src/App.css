@@ -1,0 +1,327 @@
+/* =========================
+   APP MAIN STYLES
+========================= */
+
+.app{
+  width:100%;
+  min-height:100vh;
+  background:#050505;
+  overflow-x:hidden;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:#111111;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#2b2b2b;
+  border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:#ff5a36;
+}
+
+/* =========================
+   COMMON PAGE STYLING
+========================= */
+
+.page-title{
+  font-size:32px;
+  font-weight:700;
+  color:white;
+  margin-bottom:25px;
+}
+
+.page-subtitle{
+  color:#888;
+  font-size:15px;
+  margin-top:5px;
+}
+
+/* =========================
+   COMMON CARD STYLES
+========================= */
+
+.common-card{
+  background:linear-gradient(
+    145deg,
+    #121212,
+    #1b1b1b
+  );
+
+  border:1px solid #222;
+  border-radius:24px;
+
+  padding:24px;
+}
+
+/* =========================
+   FLEX UTILITIES
+========================= */
+
+.flex{
+  display:flex;
+}
+
+.flex-between{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.flex-center{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.flex-column{
+  display:flex;
+  flex-direction:column;
+}
+
+/* =========================
+   GAP UTILITIES
+========================= */
+
+.gap-10{
+  gap:10px;
+}
+
+.gap-20{
+  gap:20px;
+}
+
+.gap-30{
+  gap:30px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.primary-btn{
+  height:50px;
+  padding:0 24px;
+
+  border:none;
+  border-radius:14px;
+
+  background:#ff5a36;
+  color:white;
+
+  font-size:15px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.primary-btn:hover{
+  opacity:0.9;
+  transform:translateY(-2px);
+}
+
+.secondary-btn{
+  height:50px;
+  padding:0 24px;
+
+  border:none;
+  border-radius:14px;
+
+  background:#1e1e1e;
+  color:white;
+
+  font-size:15px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.secondary-btn:hover{
+  background:#2a2a2a;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.common-input{
+  width:100%;
+  height:55px;
+
+  background:#181818;
+
+  border:1px solid #222;
+  border-radius:14px;
+
+  padding:0 18px;
+
+  color:white;
+  font-size:15px;
+
+  outline:none;
+
+  transition:0.3s;
+}
+
+.common-input:focus{
+  border-color:#ff5a36;
+}
+
+/* =========================
+   TABLES
+========================= */
+
+.table-wrapper{
+  width:100%;
+  overflow-x:auto;
+}
+
+.common-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.common-table thead{
+  background:#151515;
+}
+
+.common-table th{
+  padding:18px;
+  text-align:left;
+  color:#888;
+  font-size:14px;
+  font-weight:600;
+}
+
+.common-table td{
+  padding:18px;
+  border-top:1px solid #222;
+  color:white;
+}
+
+.common-table tr:hover{
+  background:#151515;
+}
+
+/* =========================
+   STATUS BADGES
+========================= */
+
+.status-badge{
+  padding:8px 14px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:600;
+}
+
+.status-success{
+  background:rgba(34,197,94,0.15);
+  color:#22c55e;
+}
+
+.status-warning{
+  background:rgba(245,158,11,0.15);
+  color:#f59e0b;
+}
+
+.status-danger{
+  background:rgba(239,68,68,0.15);
+  color:#ef4444;
+}
+
+.status-info{
+  background:rgba(59,130,246,0.15);
+  color:#3b82f6;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+
+  width:100%;
+  height:100vh;
+
+  background:rgba(0,0,0,0.7);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  z-index:999;
+}
+
+.modal-box{
+  width:500px;
+
+  background:#111111;
+
+  border-radius:24px;
+
+  padding:30px;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+.fade-in{
+  animation:fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn{
+
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0px);
+  }
+
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1200px){
+
+  .page-title{
+    font-size:28px;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .page-title{
+    font-size:24px;
+  }
+
+  .modal-box{
+    width:90%;
+  }
+
+}

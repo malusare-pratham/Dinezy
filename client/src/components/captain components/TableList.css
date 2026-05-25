@@ -1,0 +1,280 @@
+/* Full Page Base - Rich Premium Dark Background */
+.tablelist-container {
+  background-color: #0b0b0c; 
+  min-height: 100vh;
+  padding: 48px 32px;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  color: #ffffff;
+}
+
+/* Header UI Elements */
+.tablelist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 45px;
+  gap: 20px;
+}
+
+.breadcrumb {
+  font-size: 11px;
+  font-weight: 800;
+  color: #94a3b8;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.tablelist-header h1 {
+  font-size: 36px;
+  font-weight: 800;
+  color: #ff6b00; /* Signature Active Vibrant Orange */
+  margin: 0;
+}
+
+.sub-text {
+  color: #94a3b8;
+  margin-top: 6px;
+  font-size: 15px;
+}
+
+/* Luxury Black/Orange Controller Toggle Component Button */
+.back-sections-btn {
+  background: #121214;
+  border: 1px solid #27272a;
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-sections-btn:hover {
+  background: #18181b;
+  border-color: #ff6b00;
+  color: #ff6b00;
+  transform: translateX(-4px);
+}
+
+/* Smart Grid - Desktop & Mobile Donhi var Ekasobhat Perfectly 4 Cards Row Madhe Lock kele aahe */
+.tablelist-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Direct 4 Cards Line control config */
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Premium Dynamic Card Layout Engine */
+.table-card-new {
+  background: #121214;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  border: 1px solid #27272a;
+  cursor: pointer;
+}
+
+.table-card-new:hover {
+  transform: translateY(-8px);
+  border-color: #ff6b00; /* Highlighted card box borders */
+  box-shadow: 0 20px 35px rgba(255, 107, 0, 0.12);
+}
+
+.table-card-new.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #09090b;
+}
+
+.table-card-new.locked:hover {
+  transform: none;
+  border-color: #27272a;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Indicator Strip Layout Line */
+.card-indicator {
+  height: 6px;
+  width: 100%;
+}
+
+/* Status Indicator Bright Neon Accents */
+.available .card-indicator { background: #10b981; }
+.running .card-indicator { background: #ff6b00; } /* Set running indicator to custom brand orange */
+.occupied .card-indicator { background: #ef4444; }
+.billing .card-indicator { background: #3b82f6; }
+
+.card-main-content {
+  padding: 24px;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.t-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* Badges Structural Engine */
+.s-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Premium Dark Badge Theme Logic */
+.s-badge.available { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.s-badge.running { background: rgba(255, 107, 0, 0.15); color: #ff6b00; }
+.s-badge.occupied { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.s-badge.billing { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+
+.card-middle {
+  margin-bottom: 22px;
+}
+
+.seat-info {
+  font-size: 14px;
+  color: #94a3b8;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seat-info i {
+  color: #ff6b00; /* Subtle orange injection inside utility asset icon */
+}
+
+.card-bottom-empty {
+  font-size: 12px;
+  color: #64748b;
+  font-style: normal;
+  font-weight: 600;
+  border-top: 1px dashed #27272a;
+  padding-top: 14px;
+}
+
+/* Responsive Adaptive Setup */
+@media (max-width: 1200px) {
+  .tablelist-grid {
+    grid-template-columns: repeat(3, 1fr); /* Large Screens / Tablets down to 3 fallback view */
+  }
+}
+
+@media (max-width: 900px) {
+  .tablelist-container {
+    padding: 24px 16px;
+  }
+
+  .tablelist-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .back-sections-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tablelist-grid {
+    grid-template-columns: repeat(2, 1fr); /* Normal view configuration */
+  }
+}
+
+/* Responsive Core: Strict 4 Tables View per Row setup on micro screens */
+@media (max-width: 600px) {
+  .tablelist-header{
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: #0b0b0c;
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+  }
+
+  /* Mobile: remove the 3 header text lines (scoped to TableList header only) */
+  .tablelist-header .header-left{
+    display: none;
+  }
+
+  .back-sections-btn{
+    order: -1;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+  .tablelist-header h1 {
+    font-size: 28px;
+  }
+
+  /* Maintained true grid lock setup without horizontal scrolling rows */
+  .tablelist-grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 table rows layout block strict injection */
+    gap: 8px; /* Compact micro-gap padding logic */
+  }
+
+  /* Auto adjustments to optimize layout presentation cleanly inside smaller card framework */
+  .table-card-new {
+    border-radius: 12px;
+  }
+
+  .card-main-content {
+    padding: 10px 6px;
+  }
+
+  .card-top {
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .t-name {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .s-badge {
+    font-size: 8px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .card-middle {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .seat-info {
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  .card-bottom-empty {
+    font-size: 9px;
+    padding-top: 8px;
+    text-align: center;
+    border-top: 1px solid #27272a;
+  }
+}
