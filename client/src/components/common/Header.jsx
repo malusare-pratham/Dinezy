@@ -1,8 +1,9 @@
 import './Header.css';
 
 import { useMemo, useState } from 'react';
-import { Menu, Bell } from 'lucide-react'; // Premium React Icons
+import { Bell, Menu, Monitor, Moon, Sun } from 'lucide-react'; // Premium React Icons
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../../context/ThemeContext';
 
 const Header = ({
   title,
@@ -14,6 +15,10 @@ const Header = ({
 }) => {
 
   const navigate = useNavigate();
+  const {
+    mode,
+    setMode
+  } = useTheme();
 
   const currentDate = useMemo(() => {
     try{
@@ -62,14 +67,16 @@ const Header = ({
   return (
     <div className="header">
       <div className="header-left">
-        <button
-          type="button"
-          className="menu-btn"
-          aria-label="Open menu"
-          onClick={onMenuClick}
-        >
-          <Menu size={22} strokeWidth={2.5} />
-        </button>
+        {typeof onMenuClick === 'function' && (
+          <button
+            type="button"
+            className="menu-btn"
+            aria-label="Open menu"
+            onClick={onMenuClick}
+          >
+            <Menu size={22} strokeWidth={2.5} />
+          </button>
+        )}
 
         <div className="header-titles">
           <h1 className="header-title">
@@ -83,6 +90,36 @@ const Header = ({
       </div>
 
       <div className="header-right">
+        <div className="theme-switch" aria-label="Theme mode">
+          <button
+            type="button"
+            className={mode === 'auto' ? 'active' : ''}
+            onClick={() => setMode('auto')}
+            title="Auto theme"
+            aria-label="Auto theme"
+          >
+            <Monitor size={15} strokeWidth={2.4} />
+          </button>
+          <button
+            type="button"
+            className={mode === 'light' ? 'active' : ''}
+            onClick={() => setMode('light')}
+            title="Light mode"
+            aria-label="Light mode"
+          >
+            <Sun size={15} strokeWidth={2.4} />
+          </button>
+          <button
+            type="button"
+            className={mode === 'dark' ? 'active' : ''}
+            onClick={() => setMode('dark')}
+            title="Dark mode"
+            aria-label="Dark mode"
+          >
+            <Moon size={15} strokeWidth={2.4} />
+          </button>
+        </div>
+
         <div className="notification-wrap">
           <div
             className={`notification-box ${count > 0 ? 'has-notifications' : ''}`}

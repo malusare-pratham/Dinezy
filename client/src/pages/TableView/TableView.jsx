@@ -5,6 +5,36 @@ import { useEffect, useMemo, useState } from 'react';
 import Sidebar from '../../components/common/Sidebar';
 import Header from '../../components/common/Header';
 
+const useMediaQuery = (query) => {
+  const getMatch = () => {
+    if(typeof window === 'undefined') return false;
+    if(typeof window.matchMedia !== 'function') return false;
+    return window.matchMedia(query).matches;
+  };
+
+  const [matches,setMatches] = useState(getMatch);
+
+  useEffect(() => {
+    if(typeof window === 'undefined') return;
+    if(typeof window.matchMedia !== 'function') return;
+
+    const mql = window.matchMedia(query);
+    const onChange = () => setMatches(mql.matches);
+
+    onChange();
+
+    if(typeof mql.addEventListener === 'function'){
+      mql.addEventListener('change', onChange);
+      return () => mql.removeEventListener('change', onChange);
+    }
+
+    mql.addListener(onChange);
+    return () => mql.removeListener(onChange);
+  },[query]);
+
+  return matches;
+};
+
 const formatDateTime = (date) => {
   try{
     return new Intl.DateTimeFormat(
@@ -71,6 +101,9 @@ const TableView = ({
 
   const [sidebarOpen,setSidebarOpen] =
     useState(false);
+
+  const isCompactLayout =
+    useMediaQuery('(max-width: 1080px)');
 
   useEffect(() => {
     if(!selectedTable) return;
@@ -531,7 +564,7 @@ const TableView = ({
   },[selectedTable,kots]);
 
   const getTableClass = (table) => {
-    const base = ['table-card'];
+    const base = ['tv-table-card'];
 
     const key =
       String(
@@ -948,8 +981,307 @@ const TableView = ({
     document.body.appendChild(iframe);
   };
 
+  const renderBillPanel = () => {
+    if(!selectedTable) return null;
+
+    return (
+      <aside className="bill-panel">
+        <div className="bill-panel-header">
+          <div>
+            <p className="bill-panel-kicker">BILL PREVIEW</p>
+            <h2>{getTableLabel(selectedTable)}</h2>
+          </div>
+          <div className="bill-panel-actions">
+            <button
+              className="bill-panel-btn ghost"
+              onClick={() => {
+                if(isLoading) return;
+                setSelectedTable(null);
+              }}
+              disabled={isLoading}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+
+        <div className="bill-preview-card">
+          <div className="restaurant-info">
+            <h3>DINEZY RESTAURANT</h3>
+            <p>123 Main Street, City - 400001</p>
+            <p>Phone: +91 98765 43210</p>
+            <p>GSTIN: 27XXXXX1234X1ZX</p>
+          </div>
+
+          <div className="bill-meta">
+            <div className="bill-meta-row">
+              <span>Bill No:</span>
+              <strong>{stableBillNo}</strong>
+            </div>
+            <div className="bill-meta-row">
+              <span>Date & Time:</span>
+              <strong>{formatDateTime(new Date())}</strong>
+            </div>
+            <div className="bill-meta-row">
+              <span>Table:</span>
+              <strong>{getTableLabel(selectedTable)}</strong>
+            </div>
+            <div className="bill-meta-row">
+              <span>Captain:</span>
+              <strong>{selectedCaptainName || '-'}</strong>
+            </div>
+          </div>
+
+          <table className="bill-items-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th className="text-center">Qty</th>
+                <th className="text-right">Price</th>
+                <th className="text-right">Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {billItems.map((it, idx) => (
+                <tr key={`${it.name}:${it.price}:${idx}`}>
+                  <td>{it.name}</td>
+                  <td className="text-center">
+                    <input
+                      className="qty-input"
+                      type="number"
+                      min={1}
+                      value={it.qty}
+                      onChange={(e) => onChangeQty(idx, e.target.value)}
+                      disabled={isLoading}
+                    />
+                  </td>
+                  <td className="text-right">₹{Number(it.price || 0)}</td>
+                  <td className="text-right">₹{Number(it.price || 0) * Number(it.qty || 0)}</td>
+                  <td className="text-right">
+                    <button
+                      className="mini-btn danger"
+                      onClick={() => onRemoveItem(idx)}
+                      disabled={isLoading}
+                      aria-label="Remove item"
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
+              {billItems.length === 0 && (
+                <tr>
+                  <td colSpan={5} style={{ textAlign:'center', color:'#94a3b8', fontWeight: 700, padding: '16px 0' }}>
+                    No items
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+
+          <div className="bill-add-dropdown">
+            <button
+              type="button"
+              className="bill-add-toggle"
+              onClick={() => setIsAddItemOpen((v) => !v)}
+              disabled={isLoading}
+              aria-expanded={isAddItemOpen}
+            >
+              <span><i className="fa-solid fa-plus"></i> Add Item</span>
+              <i className={`fa-solid ${isAddItemOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+            </button>
+
+            {isAddItemOpen && (
+              <div className="bill-add-panel">
+                <div className="bill-menu-search">
+                  <i className="fa-solid fa-magnifying-glass"></i>
+                  <input
+                    className="bill-menu-search-input"
+                    placeholder="Search item..."
+                    value={menuQuery}
+                    onChange={(e) => setMenuQuery(e.target.value)}
+                    disabled={isLoading || isMenuLoading}
+                    autoFocus
+                  />
+                </div>
+
+                <div className="bill-menu-list" role="listbox" aria-label="Menu items">
+                  {isMenuLoading && (
+                    <div className="bill-menu-empty">Loading menu...</div>
+                  )}
+
+                  {!isMenuLoading && groupedMenus.length === 0 && (
+                    <div className="bill-menu-empty">No items found</div>
+                  )}
+
+                  {!isMenuLoading && groupedMenus.map(([cat,items]) => (
+                    <div key={cat} className="bill-menu-group">
+                      <div className="bill-menu-group-title">{cat}</div>
+                      <div className="bill-menu-group-items">
+                        {items.map((m) => (
+                          <button
+                            key={m._id}
+                            type="button"
+                            className="bill-menu-item"
+                            onClick={() => addMenuItemToBill(m)}
+                            disabled={isLoading}
+                          >
+                            <span className="bill-menu-item-name">{m.name}</span>
+                            <span className="bill-menu-item-meta">
+                              ₹{Number(m.price || 0)}{Number(m.gst ?? 0) ? ` • ${Number(m.gst)}% GST` : ''}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="bill-summary">
+            <div className="bill-summary-row">
+              <span>Sub Total</span>
+              <strong>₹{Number(computedSubTotal || 0).toFixed(2)}</strong>
+            </div>
+            <div className="bill-summary-row">
+              <span>GST</span>
+              <strong>₹{Number(computedGstTotal || 0).toFixed(2)}</strong>
+            </div>
+            <div className="bill-summary-row total">
+              <span>Total</span>
+              <strong>₹{Number(computedTotal || 0).toFixed(2)}</strong>
+            </div>
+          </div>
+
+          <div className="bill-panel-bottom">
+            <button
+              className="bill-panel-btn ghost"
+              onClick={handlePrintBill}
+              disabled={isLoading}
+            >
+              <i className="fa-solid fa-print"></i> Print Bill
+            </button>
+
+            <button
+              className="bill-panel-btn primary"
+              onClick={createBill}
+              disabled={isLoading || billItems.length === 0}
+            >
+              <i className="fa-solid fa-receipt"></i> Generate Bill
+            </button>
+          </div>
+
+          <div className="bill-payment-methods">
+            <h4>Select Payment Method</h4>
+            <div className="payment-options-inline">
+              <button
+                type="button"
+                className={paymentMethod === 'CASH' ? 'pay-option-inline active' : 'pay-option-inline'}
+                onClick={() => setPaymentMethod('CASH')}
+                disabled={isLoading}
+              >
+                <i className="fa-solid fa-money-bill-wave"></i>
+                Cash
+              </button>
+              <button
+                type="button"
+                className={paymentMethod === 'CARD' ? 'pay-option-inline active' : 'pay-option-inline'}
+                onClick={() => setPaymentMethod('CARD')}
+                disabled={isLoading}
+              >
+                <i className="fa-solid fa-credit-card"></i>
+                Card
+              </button>
+              <button
+                type="button"
+                className={paymentMethod === 'UPI' ? 'pay-option-inline active' : 'pay-option-inline'}
+                onClick={() => setPaymentMethod('UPI')}
+                disabled={isLoading}
+              >
+                <i className="fa-solid fa-qrcode"></i>
+                UPI
+              </button>
+              <button
+                type="button"
+                className={paymentMethod === 'OTHER' ? 'pay-option-inline active' : 'pay-option-inline'}
+                onClick={() => setPaymentMethod('OTHER')}
+                disabled={isLoading}
+              >
+                <i className="fa-solid fa-ellipsis"></i>
+                Other
+              </button>
+            </div>
+          </div>
+
+          <button
+            className="pay-confirm-open"
+            onClick={() => setIsPayConfirmOpen(true)}
+            disabled={isLoading || !paymentMethod || billItems.length === 0}
+          >
+            <i className="fa-solid fa-circle-check"></i> Confirm Payment
+          </button>
+
+          {isPayConfirmOpen && (
+            <div className="pay-confirm-overlay" role="dialog" aria-modal="true">
+              <div className="pay-confirm-modal">
+                <div className="pay-confirm-header">
+                  <h3>Confirm Payment</h3>
+                  <button
+                    className="pay-confirm-close"
+                    onClick={() => setIsPayConfirmOpen(false)}
+                    disabled={isLoading}
+                    aria-label="Close"
+                  >
+                    <i className="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+
+                <div className="pay-confirm-body">
+                  <div className="pay-confirm-row">
+                    <span>Table</span>
+                    <strong>{getTableLabel(selectedTable)}</strong>
+                  </div>
+                  <div className="pay-confirm-row">
+                    <span>Method</span>
+                    <strong>{paymentMethod || '-'}</strong>
+                  </div>
+                  <div className="pay-confirm-total">
+                    <span>Amount</span>
+                    <strong>₹{Number(computedTotal || 0).toFixed(2)}</strong>
+                  </div>
+                </div>
+
+                <div className="pay-confirm-actions">
+                  <button
+                    className="pay-confirm-cancel"
+                    onClick={() => setIsPayConfirmOpen(false)}
+                    disabled={isLoading}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="pay-confirm-ok"
+                    onClick={confirmPayment}
+                    disabled={isLoading || !paymentMethod}
+                  >
+                    Payment Complete
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </aside>
+    );
+  };
+
   const content = (
     <div className={withSidebar ? 'table-view-container table-view-embed' : 'table-view-container'}>
+      <div className="table-view-inner">
       {/* Top Header Section */}
       <header className="table-header">
         <div className="header-left">
@@ -1017,6 +1349,302 @@ const TableView = ({
           <span className="table-count">{selectedTables.length} TABLES</span>
         </div>
 
+        {selectedTable && !isCompactLayout && (
+          <div className="bill-desktop-sticky" role="region" aria-label="Bill Preview">
+            <aside className="bill-panel">
+              <div className="bill-panel-header">
+                <div>
+                  <p className="bill-panel-kicker">BILL PREVIEW</p>
+                  <h2>{getTableLabel(selectedTable)}</h2>
+                </div>
+                <div className="bill-panel-actions">
+                  <button
+                    className="bill-panel-btn ghost"
+                    onClick={() => {
+                      if(isLoading) return;
+                      setSelectedTable(null);
+                    }}
+                    disabled={isLoading}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+
+              <div className="bill-preview-card">
+                <div className="restaurant-info">
+                  <h3>DINEZY RESTAURANT</h3>
+                  <p>123 Main Street, City - 400001</p>
+                  <p>Phone: +91 98765 43210</p>
+                  <p>GSTIN: 27XXXXX1234X1ZX</p>
+                </div>
+
+                <div className="bill-meta">
+                  <div className="bill-meta-row">
+                    <span>Bill No:</span>
+                    <strong>{stableBillNo}</strong>
+                  </div>
+                  <div className="bill-meta-row">
+                    <span>Date & Time:</span>
+                    <strong>{formatDateTime(new Date())}</strong>
+                  </div>
+                  <div className="bill-meta-row">
+                    <span>Table:</span>
+                    <strong>{getTableLabel(selectedTable)}</strong>
+                  </div>
+                  <div className="bill-meta-row">
+                    <span>Captain:</span>
+                    <strong>{selectedCaptainName || '-'}</strong>
+                  </div>
+                </div>
+
+                <table className="bill-items-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th className="text-center">Qty</th>
+                      <th className="text-right">Price</th>
+                      <th className="text-right">Total</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {billItems.map((it, idx) => (
+                      <tr key={`${it.name}:${it.price}:${idx}`}>
+                        <td>{it.name}</td>
+                        <td className="text-center">
+                          <input
+                            className="qty-input"
+                            type="number"
+                            min={1}
+                            value={it.qty}
+                            onChange={(e) => onChangeQty(idx, e.target.value)}
+                            disabled={isLoading}
+                          />
+                        </td>
+                        <td className="text-right">₹{Number(it.price || 0)}</td>
+                        <td className="text-right">₹{Number(it.price || 0) * Number(it.qty || 0)}</td>
+                        <td className="text-right">
+                          <button
+                            className="mini-btn danger"
+                            onClick={() => onRemoveItem(idx)}
+                            disabled={isLoading}
+                            aria-label="Remove item"
+                          >
+                            <i className="fa-solid fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+
+                    {billItems.length === 0 && (
+                      <tr>
+                        <td colSpan={5} style={{ textAlign:'center', color:'#94a3b8', fontWeight: 700, padding: '16px 0' }}>
+                          No items
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+
+                <div className="bill-add-dropdown">
+                  <button
+                    type="button"
+                    className="bill-add-toggle"
+                    onClick={() => setIsAddItemOpen((v) => !v)}
+                    disabled={isLoading}
+                    aria-expanded={isAddItemOpen}
+                  >
+                    <span><i className="fa-solid fa-plus"></i> Add Item</span>
+                    <i className={`fa-solid ${isAddItemOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+                  </button>
+
+                  {isAddItemOpen && (
+                    <div className="bill-add-panel">
+                      <div className="bill-menu-search">
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                        <input
+                          className="bill-menu-search-input"
+                          placeholder="Search item..."
+                          value={menuQuery}
+                          onChange={(e) => setMenuQuery(e.target.value)}
+                          disabled={isLoading || isMenuLoading}
+                          autoFocus
+                        />
+                      </div>
+
+                      <div className="bill-menu-list" role="listbox" aria-label="Menu items">
+                        {isMenuLoading && (
+                          <div className="bill-menu-empty">Loading menu...</div>
+                        )}
+
+                        {!isMenuLoading && groupedMenus.length === 0 && (
+                          <div className="bill-menu-empty">No items found</div>
+                        )}
+
+                        {!isMenuLoading && groupedMenus.map(([cat,items]) => (
+                          <div key={cat} className="bill-menu-group">
+                            <div className="bill-menu-group-title">{cat}</div>
+                            <div className="bill-menu-group-items">
+                              {items.map((m) => (
+                                <button
+                                  key={m._id}
+                                  type="button"
+                                  className="bill-menu-item"
+                                  onClick={() => addMenuItemToBill(m)}
+                                  disabled={isLoading}
+                                >
+                                  <span className="bill-menu-item-name">{m.name}</span>
+                                  <span className="bill-menu-item-meta">
+                                    ₹{Number(m.price || 0)}{Number(m.gst ?? 0) ? ` • ${Number(m.gst)}% GST` : ''}
+                                  </span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="bill-summary">
+                  <div className="bill-summary-row">
+                    <span>Sub Total</span>
+                    <strong>₹{Number(computedSubTotal || 0).toFixed(2)}</strong>
+                  </div>
+                  <div className="bill-summary-row">
+                    <span>GST</span>
+                    <strong>₹{Number(computedGstTotal || 0).toFixed(2)}</strong>
+                  </div>
+                  <div className="bill-summary-row total">
+                    <span>Total</span>
+                    <strong>₹{Number(computedTotal || 0).toFixed(2)}</strong>
+                  </div>
+                </div>
+
+                <div className="bill-panel-bottom">
+                  <button
+                    className="bill-panel-btn ghost"
+                    onClick={handlePrintBill}
+                    disabled={isLoading}
+                  >
+                    <i className="fa-solid fa-print"></i> Print Bill
+                  </button>
+
+                  <button
+                    className="bill-panel-btn primary"
+                    onClick={createBill}
+                    disabled={isLoading || billItems.length === 0}
+                  >
+                    <i className="fa-solid fa-receipt"></i> Generate Bill
+                  </button>
+                </div>
+
+                <div className="bill-payment-methods">
+                  <h4>Select Payment Method</h4>
+                  <div className="payment-options-inline">
+                    <button
+                      type="button"
+                      className={paymentMethod === 'CASH' ? 'pay-option-inline active' : 'pay-option-inline'}
+                      onClick={() => setPaymentMethod('CASH')}
+                      disabled={isLoading}
+                    >
+                      <i className="fa-solid fa-money-bill-wave"></i>
+                      Cash
+                    </button>
+                    <button
+                      type="button"
+                      className={paymentMethod === 'CARD' ? 'pay-option-inline active' : 'pay-option-inline'}
+                      onClick={() => setPaymentMethod('CARD')}
+                      disabled={isLoading}
+                    >
+                      <i className="fa-solid fa-credit-card"></i>
+                      Card
+                    </button>
+                    <button
+                      type="button"
+                      className={paymentMethod === 'UPI' ? 'pay-option-inline active' : 'pay-option-inline'}
+                      onClick={() => setPaymentMethod('UPI')}
+                      disabled={isLoading}
+                    >
+                      <i className="fa-solid fa-qrcode"></i>
+                      UPI
+                    </button>
+                    <button
+                      type="button"
+                      className={paymentMethod === 'OTHER' ? 'pay-option-inline active' : 'pay-option-inline'}
+                      onClick={() => setPaymentMethod('OTHER')}
+                      disabled={isLoading}
+                    >
+                      <i className="fa-solid fa-ellipsis"></i>
+                      Other
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  className="pay-confirm-open"
+                  onClick={() => setIsPayConfirmOpen(true)}
+                  disabled={isLoading || !paymentMethod || billItems.length === 0}
+                >
+                  <i className="fa-solid fa-circle-check"></i> Confirm Payment
+                </button>
+
+                {isPayConfirmOpen && (
+                  <div className="pay-confirm-overlay" role="dialog" aria-modal="true">
+                    <div className="pay-confirm-modal">
+                      <div className="pay-confirm-header">
+                        <h3>Confirm Payment</h3>
+                        <button
+                          className="pay-confirm-close"
+                          onClick={() => setIsPayConfirmOpen(false)}
+                          disabled={isLoading}
+                          aria-label="Close"
+                        >
+                          <i className="fa-solid fa-xmark"></i>
+                        </button>
+                      </div>
+
+                      <div className="pay-confirm-body">
+                        <div className="pay-confirm-row">
+                          <span>Table</span>
+                          <strong>{getTableLabel(selectedTable)}</strong>
+                        </div>
+                        <div className="pay-confirm-row">
+                          <span>Method</span>
+                          <strong>{paymentMethod || '-'}</strong>
+                        </div>
+                        <div className="pay-confirm-total">
+                          <span>Amount</span>
+                          <strong>₹{Number(computedTotal || 0).toFixed(2)}</strong>
+                        </div>
+                      </div>
+
+                      <div className="pay-confirm-actions">
+                        <button
+                          className="pay-confirm-cancel"
+                          onClick={() => setIsPayConfirmOpen(false)}
+                          disabled={isLoading}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="pay-confirm-ok"
+                          onClick={confirmPayment}
+                          disabled={isLoading || !paymentMethod}
+                        >
+                          Payment Complete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </aside>
+          </div>
+        )}
+
         <div className="table-view-split">
           <div>
             {!token ? (
@@ -1066,7 +1694,7 @@ const TableView = ({
             )}
           </div>
 
-          {selectedTable && (
+          {selectedTable && isCompactLayout && (
             <div
               className="bill-modal-overlay"
               role="dialog"
@@ -1370,6 +1998,7 @@ const TableView = ({
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

@@ -1,8 +1,15 @@
+.menu-page{
+  background: var(--app-bg, #0d0e12);
+  border-radius: 16px;
+  padding: clamp(12px, 2.2vw, 18px);
+  color: var(--app-text, #ffffff);
+}
+
 .menu-container {
-  background-color: #0d0d0d; /* Dark background from image */
-  min-height: 100vh;
-  padding: 40px;
-  color: #ffffff;
+  background: transparent;
+  min-height: 100%;
+  padding: 0;
+  color: inherit;
   font-family: 'Inter', sans-serif;
 }
 
@@ -109,9 +116,9 @@
 
 /* Table Design */
 .table-wrapper {
-  background: #151515;
+  background: var(--app-surface, #151515);
   border-radius: 12px;
-  border: 1px solid #222;
+  border: 1px solid var(--app-border, #222);
   overflow: hidden;
 }
 
@@ -123,16 +130,16 @@
 
 .menu-table th {
   padding: 20px;
-  background: #1a1a1a;
+  background: rgba(255,255,255,0.03);
   color: #666;
   font-size: 14px;
   font-weight: 500;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--app-border, #222);
 }
 
 .menu-table td {
   padding: 20px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--app-border, #222);
   color: #bbb;
   font-size: 15px;
 }
@@ -393,4 +400,61 @@
 
 .menu-save-btn:hover {
   background: #e63e1a;
+}
+
+/* Mobile: turn table rows into cards */
+@media (max-width: 720px){
+  .menu-table thead{
+    display: none;
+  }
+
+  .table-wrapper{
+    background: transparent;
+    border: none;
+    overflow: visible;
+  }
+
+  .menu-table,
+  .menu-table tbody,
+  .menu-table tr,
+  .menu-table td{
+    display: block;
+    width: 100%;
+  }
+
+  .menu-table tr{
+    background: var(--app-surface, #111);
+    border: 1px solid var(--app-border, #222);
+    border-radius: 14px;
+    margin: 12px 0;
+    overflow: hidden;
+  }
+
+  .menu-table td{
+    padding: 10px 12px;
+    border-bottom: 1px dashed var(--app-border, #222);
+    font-size: 14px;
+  }
+
+  .menu-table td:last-child{
+    border-bottom: none;
+  }
+
+  .menu-table td::before{
+    content: attr(data-label);
+    display: block;
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .menu-table td.action-icons{
+    justify-content: flex-end;
+    gap: 14px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
 }

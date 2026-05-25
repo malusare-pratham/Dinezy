@@ -307,6 +307,7 @@ const Menu = () => {
 
         <div className="page-content">
 
+          <div className="menu-page">
           <div className="menu-container">
       {/* Header Section */}
       <header className="menu-header">
@@ -357,24 +358,24 @@ const Menu = () => {
             ) : (
               filteredMenus.map((m) => (
                 <tr key={m._id}>
-                  <td className="item-name">{m.name}</td>
-                  <td>{m.category}</td>
-                  <td className="price-text">Rs. {Number(m.price || 0).toFixed(2)}</td>
-                  <td>{m.hsn || '-'}</td>
-                  <td>{(m.gst ?? 0)}%</td>
-                  <td>
+                  <td className="item-name" data-label="Item">{m.name}</td>
+                  <td data-label="Category">{m.category}</td>
+                  <td className="price-text" data-label="Price">Rs. {Number(m.price || 0).toFixed(2)}</td>
+                  <td data-label="HSN">{m.hsn || '-'}</td>
+                  <td data-label="GST">{(m.gst ?? 0)}%</td>
+                  <td data-label="Type">
                     <span className="type-badge">
                       {String(m.type || m.diet || 'VEG').toUpperCase() === 'JAIN'
                         ? 'VEG'
                         : String(m.type || m.diet || 'VEG').toUpperCase()}
                     </span>
                   </td>
-                  <td className="subcat-cell">
+                  <td className="subcat-cell" data-label="Subcategory">
                     {(Array.isArray(m.subCategories) && m.subCategories.length > 0)
                       ? m.subCategories.join(', ')
                       : '-'}
                   </td>
-                  <td className="action-icons">
+                  <td className="action-icons" data-label="Actions">
                     <i className="fa-regular fa-pen-to-square edit-icon" onClick={() => openEditModal(m)}></i>
                     <i className="fa-regular fa-trash-can delete-icon" onClick={() => deleteMenu(m._id)}></i>
                   </td>
@@ -565,11 +566,9 @@ const Menu = () => {
         </div>
       )}
           </div>
-
+          </div>
         </div>
-
       </div>
-
     </div>
   );
 };

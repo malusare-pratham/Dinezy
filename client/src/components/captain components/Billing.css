@@ -1,6 +1,6 @@
 .billing-container {
-  background-color: #0b0b0c;
-  min-height: 100vh;
+  background-color: #0d0e12;
+  min-height: auto;
   padding: 40px;
   font-family: 'Inter', sans-serif;
 }
@@ -53,12 +53,131 @@
 
 /* Invoice Card */
 .invoice-preview-card {
-  background: #121214;
+  background: #12141a;
   border-radius: 12px;
   padding: 40px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
   width: min(900px, 100%);
   border: 1px solid #27272a;
+}
+
+@media (max-width: 700px){
+  .billing-container{
+    padding: 8px 0 0;
+    background: #0d0e12;
+  }
+
+  .billing-header{
+    padding: 0 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .header-titles h1{
+    font-size: 20px;
+    line-height: 1.1;
+  }
+
+  .header-titles p{
+    font-size: 12px;
+    margin-top: 3px;
+  }
+
+  .print-top-btn{
+    border: none;
+    background: #16181f;
+    border-radius: 999px;
+    padding: 9px 12px;
+    font-size: 12px;
+    box-shadow: none;
+  }
+
+  .billing-grid{
+    gap: 0;
+    justify-items: stretch;
+  }
+
+  .invoice-preview-card{
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 14px 10px;
+    background: #0d0e12;
+  }
+
+  .restaurant-info{
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.10);
+  }
+
+  .restaurant-info h2{
+    font-size: 18px;
+  }
+
+  .restaurant-info p{
+    font-size: 11px;
+  }
+
+  .bill-meta-info{
+    margin-bottom: 14px;
+    background: #16181f;
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .meta-row{
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .meta-row:last-child{
+    margin-bottom: 0;
+  }
+
+  .meta-item label{
+    font-size: 10px;
+  }
+
+  .meta-item span{
+    font-size: 12px;
+  }
+
+  .invoice-table{
+    margin-bottom: 16px;
+    font-size: 12px;
+  }
+
+  .invoice-table th,
+  .invoice-table td{
+    padding: 10px 0;
+    font-size: 12px;
+  }
+
+  .invoice-footer-summary{
+    background: #16181f;
+    border-top: none;
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .footer-row{
+    font-size: 12px;
+  }
+
+  .grand-total-row{
+    font-size: 18px;
+    padding-top: 12px;
+    margin-top: 12px;
+  }
+
+  .complete-payment-btn{
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 14px;
+  }
 }
 
 .invoice-complete-action{
