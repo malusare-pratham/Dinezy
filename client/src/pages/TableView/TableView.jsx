@@ -981,6 +981,27 @@ const TableView = ({
     document.body.appendChild(iframe);
   };
 
+  // Backward-compatible alias (some older JSX used this name)
+  const handlePrintBill = printBillOnly;
+
+  // Generate Bill button handler (opens confirm flow)
+  const createBill = () => {
+    if(isLoading) return;
+    if(!selectedTable?._id){
+      alert('Table not found');
+      return;
+    }
+    if(!Array.isArray(billItems) || billItems.length === 0){
+      alert('No items');
+      return;
+    }
+    if(!paymentMethod){
+      alert('Select payment method');
+      return;
+    }
+    setIsPayConfirmOpen(true);
+  };
+
   const renderBillPanel = () => {
     if(!selectedTable) return null;
 
@@ -1145,11 +1166,11 @@ const TableView = ({
           <div className="bill-summary">
             <div className="bill-summary-row">
               <span>Sub Total</span>
-              <strong>₹{Number(computedSubTotal || 0).toFixed(2)}</strong>
+              <strong>₹{Number(computedSubtotal || 0).toFixed(2)}</strong>
             </div>
             <div className="bill-summary-row">
               <span>GST</span>
-              <strong>₹{Number(computedGstTotal || 0).toFixed(2)}</strong>
+              <strong>₹{Number(computedGst || 0).toFixed(2)}</strong>
             </div>
             <div className="bill-summary-row total">
               <span>Total</span>
@@ -1160,7 +1181,7 @@ const TableView = ({
           <div className="bill-panel-bottom">
             <button
               className="bill-panel-btn ghost"
-              onClick={handlePrintBill}
+              onClick={printBillOnly}
               disabled={isLoading}
             >
               <i className="fa-solid fa-print"></i> Print Bill
@@ -1349,7 +1370,7 @@ const TableView = ({
           <span className="table-count">{selectedTables.length} TABLES</span>
         </div>
 
-        {selectedTable && !isCompactLayout && (
+        {false && (
           <div className="bill-desktop-sticky" role="region" aria-label="Bill Preview">
             <aside className="bill-panel">
               <div className="bill-panel-header">
@@ -1511,11 +1532,11 @@ const TableView = ({
                 <div className="bill-summary">
                   <div className="bill-summary-row">
                     <span>Sub Total</span>
-                    <strong>₹{Number(computedSubTotal || 0).toFixed(2)}</strong>
+                    <strong>₹{Number(computedSubtotal || 0).toFixed(2)}</strong>
                   </div>
                   <div className="bill-summary-row">
                     <span>GST</span>
-                    <strong>₹{Number(computedGstTotal || 0).toFixed(2)}</strong>
+                    <strong>₹{Number(computedGst || 0).toFixed(2)}</strong>
                   </div>
                   <div className="bill-summary-row total">
                     <span>Total</span>
@@ -1526,7 +1547,7 @@ const TableView = ({
                 <div className="bill-panel-bottom">
                   <button
                     className="bill-panel-btn ghost"
-                    onClick={handlePrintBill}
+                    onClick={printBillOnly}
                     disabled={isLoading}
                   >
                     <i className="fa-solid fa-print"></i> Print Bill
@@ -1694,7 +1715,7 @@ const TableView = ({
             )}
           </div>
 
-          {selectedTable && isCompactLayout && (
+          {selectedTable && (
             <div
               className="bill-modal-overlay"
               role="dialog"

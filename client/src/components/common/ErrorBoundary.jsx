@@ -6,21 +6,31 @@ class ErrorBoundary extends Component {
     super(props);
     this.state = {
       hasError:false,
-      message:''
+      message:'',
+      stack:'',
+      componentStack:''
     };
   }
 
   static getDerivedStateFromError(error){
     return {
       hasError:true,
-      message: String(error?.message || error || 'Unknown error')
+      message: String(error?.message || error || 'Unknown error'),
+      stack: String(error?.stack || ''),
+      componentStack:''
     };
   }
 
-  componentDidCatch(error){
+  componentDidCatch(error, info){
     // keep default behavior but log for debugging
     // eslint-disable-next-line no-console
     console.error('UI crashed:', error);
+    try{
+      this.setState({
+        stack: String(error?.stack || this.state.stack || ''),
+        componentStack: String(info?.componentStack || '')
+      });
+    } catch {}
   }
 
   render(){
@@ -37,6 +47,22 @@ class ErrorBoundary extends Component {
           <div style={{ color:'#94a3b8', fontWeight:650 }}>
             {this.state.message}
           </div>
+          {import.meta?.env?.DEV && (this.state.stack || this.state.componentStack) && (
+            <pre style={{
+              marginTop:12,
+              background:'#0b1220',
+              border:'1px solid #1f2a44',
+              padding:12,
+              borderRadius:10,
+              overflow:'auto',
+              color:'#cbd5e1',
+              fontSize:12,
+              lineHeight:1.4
+            }}>
+              {this.state.stack || ''}
+              {this.state.componentStack ? `\n\nComponent stack:${this.state.componentStack}` : ''}
+            </pre>
+          )}
           <button
             type="button"
             onClick={() => window.location.reload()}
@@ -62,4 +88,3 @@ class ErrorBoundary extends Component {
 }
 
 export default ErrorBoundary;
-
