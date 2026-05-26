@@ -208,10 +208,10 @@
   right: 0;
   top: 60px;
   width: 330px;
-  background: #121318;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--header-surface);
+  border: 1px solid var(--border-subtle);
   border-radius: 18px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
   padding: 14px;
   z-index: 3000;
   backdrop-filter: blur(20px);
@@ -233,7 +233,7 @@
 }
 
 .notification-clear {
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
   background: var(--header-surface);
   color: var(--text-muted);
   padding: 6px 12px;
@@ -245,7 +245,7 @@
 }
 
 .notification-clear:hover {
-  color: #fff;
+  color: var(--text-main);
   border-color: var(--primary-orange);
   background: rgba(255, 107, 0, 0.1);
 }
@@ -270,7 +270,7 @@
   width: 4px;
 }
 .notification-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border-subtle);
   border-radius: 10px;
 }
 
@@ -287,7 +287,7 @@
 }
 
 .notification-msg {
-  color: #e2e8f0;
+  color: var(--text-main);
   font-weight: 600;
   font-size: 13px;
   line-height: 1.4;

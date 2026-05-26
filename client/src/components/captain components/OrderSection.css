@@ -1,13 +1,13 @@
 /* Premium Deep Black & Vibrant Orange Theme */
 :root {
-  --bg-dark-primary: #0d0e12;
-  --bg-dark-secondary: #1a1a22;
-  --bg-card: #22222a;
-  --primary-orange: #ff6b00;
-  --primary-orange-hover: #e05e00;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --border-color: #2f2f3d;
+  --bg-dark-primary: var(--app-bg);
+  --bg-dark-secondary: var(--app-surface);
+  --bg-card: var(--app-surface-2);
+  --primary-orange: var(--app-orange);
+  --primary-orange-hover: var(--app-orange);
+  --text-main: var(--app-text);
+  --text-muted: var(--app-muted);
+  --border-color: var(--app-border);
   --veg-color: #10b981;
   --non-veg-color: #ef4444;
 }
@@ -17,7 +17,7 @@
   grid-template-columns: 1fr 380px;
   gap: 30px;
   padding: 40px;
-  background-color: #0d0e12;
+  background-color: var(--bg-dark-primary);
   min-height: auto;
   font-family: 'Plus Jakarta Sans', sans-serif;
   align-items: start;
@@ -78,8 +78,8 @@
 }
 
 .back-tables-btn {
-  background: #16181f;
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   color: var(--text-main);
   padding: 10px 20px;
   border-radius: 10px;
@@ -89,7 +89,7 @@
 }
 
 .back-tables-btn:hover {
-  background: #20232c;
+  background: var(--bg-dark-secondary);
   border-color: rgba(255, 107, 0, 0.55);
   color: var(--primary-orange);
 }
@@ -843,7 +843,7 @@
   .order-container {
     padding: 8px 0 0;
     gap: 10px;
-    background: #0d0e12;
+    background: var(--bg-dark-primary);
   }
   .order-topbar{
     margin-bottom: 0;
@@ -854,7 +854,7 @@
     border: none;
     border-radius: 0;
     box-shadow: none;
-    background: #0d0e12;
+    background: var(--bg-dark-primary);
   }
   .menu-header {
     flex-direction: column;
@@ -863,7 +863,7 @@
     position: sticky;
     top: 0;
     z-index: 5;
-    background: #0d0e12;
+    background: var(--bg-dark-primary);
     padding-bottom: 8px;
     margin-bottom: 12px;
     border-bottom: none;
@@ -892,10 +892,10 @@
   }
 
   .back-tables-btn {
-    width: auto;
-    min-width: 108px;
+    width: 100%;
+    min-width: 0;
     padding: 9px 12px;
-    border-radius: 999px;
+    border-radius: 10px;
     font-size: 12px;
     font-weight: 800;
     box-shadow: none;
@@ -910,7 +910,7 @@
   .search-box,
   .diet-box {
     border: none;
-    background: #16181f;
+    background: var(--bg-card);
   }
 
   .search-box{
@@ -936,13 +936,13 @@
 
   .tab{
     border: none;
-    background: #16181f;
+    background: var(--bg-card);
     padding: 9px 14px;
     border-radius: 999px;
     font-size: 12px;
     font-weight: 800;
-    color: #cbd5e1;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    color: var(--text-main);
+    box-shadow: inset 0 0 0 1px var(--border-color);
   }
 
   .tab.active{
@@ -957,7 +957,7 @@
   }
 
   .menu-card{
-    background: #16181f;
+    background: var(--bg-card);
     border: none;
     padding: 10px;
     border-radius: 12px;
@@ -973,13 +973,13 @@
   .latest-kot-box,
   .cart-item{
     border: none;
-    background: #16181f;
+    background: var(--bg-card);
     box-shadow: none;
   }
 
   .existing-item-row{
     border: none;
-    background: #0f1117;
+    background: var(--bg-dark-secondary);
   }
 
   .cat-name{

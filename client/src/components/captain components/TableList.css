@@ -1,10 +1,10 @@
 /* Full Page Base - Rich Premium Dark Background */
 .tablelist-container {
-  background-color: #0d0e12; 
+  background-color: var(--app-bg);
   min-height: auto;
   padding: 24px 32px 0;
   font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  color: #ffffff;
+  color: var(--app-text);
 }
 
 /* Header UI Elements */
@@ -19,7 +19,7 @@
 .breadcrumb {
   font-size: 11px;
   font-weight: 800;
-  color: #94a3b8;
+  color: var(--app-muted);
   letter-spacing: 1.5px;
   margin-bottom: 8px;
 }
@@ -27,24 +27,24 @@
 .tablelist-header h1 {
   font-size: 36px;
   font-weight: 800;
-  color: #ff6b00; /* Signature Active Vibrant Orange */
+  color: var(--app-orange); /* Signature Active Vibrant Orange */
   margin: 0;
 }
 
 .sub-text {
-  color: #94a3b8;
+  color: var(--app-muted);
   margin-top: 6px;
   font-size: 15px;
 }
 
 /* Luxury Black/Orange Controller Toggle Component Button */
 .back-sections-btn {
-  background: #121214;
-  border: 1px solid #27272a;
+  background: var(--app-surface-2);
+  border: 1px solid var(--app-border);
   padding: 12px 24px;
   border-radius: 14px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--app-text);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -54,9 +54,9 @@
 }
 
 .back-sections-btn:hover {
-  background: #18181b;
-  border-color: #ff6b00;
-  color: #ff6b00;
+  background: var(--app-surface);
+  border-color: var(--app-orange);
+  color: var(--app-orange);
   transform: translateX(-4px);
 }
 
@@ -73,32 +73,32 @@
 .table-card-new {
   background:
     radial-gradient(120px 70px at 100% 0%, rgba(255, 107, 0, 0.08), transparent 62%),
-    linear-gradient(180deg, #181a22 0%, #111217 100%);
+    var(--app-surface);
   border-radius: 16px;
   position: relative;
   overflow: hidden;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.36);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--app-border);
   cursor: pointer;
   min-height: 138px;
 }
 
 .table-card-new:hover {
   transform: translateY(-4px);
-  border-color: #ff6b00; /* Highlighted card box borders */
+  border-color: var(--app-orange); /* Highlighted card box borders */
   box-shadow: 0 16px 32px rgba(255, 107, 0, 0.12);
 }
 
 .table-card-new.locked {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #09090b;
+  background: var(--app-surface-2);
 }
 
 .table-card-new.locked:hover {
   transform: none;
-  border-color: #27272a;
+  border-color: var(--app-border);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
 }
 
@@ -148,7 +148,7 @@
 .t-name {
   font-size: 26px;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--app-text);
   line-height: 1;
 }
 
@@ -176,7 +176,7 @@
 
 .seat-info {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--app-muted);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -184,15 +184,15 @@
 }
 
 .seat-info i {
-  color: #ff6b00; /* Subtle orange injection inside utility asset icon */
+  color: var(--app-orange); /* Subtle orange injection inside utility asset icon */
 }
 
 .card-bottom-empty {
   font-size: 12px;
-  color: #64748b;
+  color: var(--app-muted);
   font-style: normal;
   font-weight: 600;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid var(--app-border);
   padding-top: 12px;
 }
 
@@ -229,7 +229,7 @@
   .back-sections-btn {
     width: 100%;
     justify-content: center;
-    max-width: 220px;
+    max-width: 100%;
   }
 
   .tablelist-grid {
@@ -243,7 +243,7 @@
     position: sticky;
     top: 0;
     z-index: 5;
-    background: #0d0e12;
+    background: var(--app-bg);
     padding-bottom: 10px;
     margin-bottom: 12px;
   }
@@ -255,8 +255,8 @@
 
   .back-sections-btn{
     order: -1;
-    width: auto;
-    min-width: 128px;
+    width: 100%;
+    min-width: 0;
     max-width: none;
     padding: 9px 12px;
     border-radius: 10px;
@@ -320,7 +320,7 @@
     font-size: 9px;
     padding-top: 8px;
     text-align: center;
-    border-top: 1px solid #27272a;
+    border-top: 1px solid var(--app-border);
     line-height: 1.15;
   }
 }

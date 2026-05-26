@@ -930,3 +930,278 @@
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
+
+/* =========================
+   LIGHT THEME OVERRIDES
+========================= */
+html[data-theme="light"] .table-view-container{
+  background-color: var(--app-bg);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .table-view-container.table-view-embed{
+  background-color: var(--app-bg);
+}
+
+html[data-theme="light"] .floor-plan-text{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .icon-btn,
+html[data-theme="light"] .nav-btn{
+  background: var(--app-surface);
+  color: var(--app-text);
+  border-color: var(--app-border);
+}
+
+html[data-theme="light"] .nav-btn:hover{
+  background: var(--app-surface-2);
+}
+
+html[data-theme="light"] .table-meta{
+  color: var(--app-muted);
+  border-bottom-color: var(--app-border);
+}
+
+html[data-theme="light"] .legend span,
+html[data-theme="light"] .stats span{
+  background: var(--app-surface);
+  border-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .section-tab{
+  background: var(--app-surface);
+  color: var(--app-text);
+  border-color: var(--app-border);
+}
+
+html[data-theme="light"] .section-tab.active{
+  background: rgba(255,77,36,0.12);
+  border-color: #ff4d24;
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .tab-count{
+  background: var(--app-bg);
+  border-color: var(--app-border);
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .section-title{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .section-title h3{
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .table-empty-state{
+  border-color: var(--app-border);
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .table-empty-state .title{
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .table-empty-state .desc{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .tv-table-card{
+  background: var(--app-surface);
+  border-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .tv-table-card.is-available{
+  background: var(--app-surface);
+}
+
+html[data-theme="light"] .bill-panel{
+  background: var(--app-surface);
+  border-color: var(--app-border);
+}
+
+html[data-theme="light"] .bill-modal{
+  background: var(--app-surface);
+  border-color: var(--app-border);
+  box-shadow: 0 24px 70px rgba(15,23,42,0.25);
+}
+
+html[data-theme="light"] .bill-panel-kicker{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .bill-panel-header h2{
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-panel-btn{
+  background: var(--app-surface-2);
+  color: var(--app-text);
+  border-color: var(--app-border);
+}
+
+html[data-theme="light"] .bill-preview-card{
+  background: var(--app-surface);
+  border-color: var(--app-border);
+}
+
+html[data-theme="light"] .bill-preview-card .restaurant-info{
+  border-bottom-color: var(--app-border);
+}
+
+html[data-theme="light"] .bill-preview-card .restaurant-info h3{
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-preview-card .restaurant-info p{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .bill-meta-row{
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-items-table th{
+  border-bottom-color: var(--app-border);
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .bill-items-table td{
+  border-bottom-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-add-toggle{
+  border-color: var(--app-border);
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-add-panel{
+  border-color: var(--app-border);
+  background: var(--app-surface);
+}
+
+html[data-theme="light"] .bill-menu-search{
+  border-color: var(--app-border);
+  background: var(--app-surface-2);
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .bill-menu-search-input{
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-menu-group-title{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .bill-menu-item{
+  border-color: var(--app-border);
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-menu-item-meta{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .bill-add-cancel{
+  border-color: var(--app-border);
+  background: var(--app-surface-2);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-input{
+  background: var(--app-surface-2);
+  border-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .qty-input{
+  background: var(--app-surface-2);
+  border-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .mini-btn{
+  border-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-summary{
+  border-top-color: var(--app-border);
+}
+
+html[data-theme="light"] .bill-summary-row{
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-summary-row.total{
+  border-top-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .bill-panel-hint{
+  border-color: var(--app-border);
+  background: var(--app-surface);
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .bill-payment-methods{
+  border-top-color: var(--app-border);
+}
+
+html[data-theme="light"] .bill-payment-methods h4{
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .pay-option-inline{
+  background: var(--app-surface);
+  border-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .pay-confirm-modal{
+  background: var(--app-surface);
+  border-color: var(--app-border);
+}
+
+html[data-theme="light"] .pay-confirm-header{
+  border-bottom-color: var(--app-border);
+}
+
+html[data-theme="light"] .pay-confirm-header h3{
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .pay-confirm-close{
+  background: var(--app-surface-2);
+  border-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .pay-confirm-card{
+  background: var(--app-surface);
+  border-color: var(--app-border);
+}
+
+html[data-theme="light"] .pay-confirm-row{
+  border-top-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .pay-confirm-total{
+  border-top-color: var(--app-border);
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .pay-confirm-cancel{
+  border-color: var(--app-border);
+  color: var(--app-text);
+}
