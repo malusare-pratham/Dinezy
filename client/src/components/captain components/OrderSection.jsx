@@ -44,13 +44,17 @@ const OrderSection = ({
   const [customerPhone, setCustomerPhone] = useState('');
   const [dietFilter, setDietFilter] = useState('VEG');
   const [search, setSearch] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [activeCategory, setActiveCategory] = useState('Starter');
   const [variantByMenuId, setVariantByMenuId] = useState({});
 
   const [cart, setCart] = useState([]);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const [existingKots, setExistingKots] = useState([]);
+
+  useEffect(() => {
+    setActiveCategory('Starter');
+  }, [table?._id, table?.tableNumber]);
 
   const fetchMenus = async () => {
     const res = await fetch(
@@ -374,6 +378,25 @@ const OrderSection = ({
     }));
   };
 
+  const decrementOrRemove = (menuId, variant) => {
+    setCart((prev) => {
+      const next = [];
+      for (const i of prev) {
+        if (i.menuId !== menuId || (i.variant || '') !== (variant || '')) {
+          next.push(i);
+          continue;
+        }
+
+        const currentQty = Number(i.qty || 1);
+        const newQty = currentQty - 1;
+        if (newQty > 0) {
+          next.push({ ...i, qty: newQty });
+        }
+      }
+      return next;
+    });
+  };
+
   const subtotal = useMemo(() => (
     (cart || []).reduce((acc, i) => acc + (Number(i.price || 0) * Number(i.qty || 0)), 0)
   ), [cart]);
@@ -621,9 +644,42 @@ const OrderSection = ({
                 </div>
               )}
 
-              <button className="add-to-cart-btn" onClick={() => addToCart(item)} disabled={isLoading}>
-                <i className="fa-solid fa-plus"></i> Add
-              </button>
+              {(() => {
+                const menuId = item?._id;
+                const variant = (variantByMenuId[menuId] || '').trim();
+                const inCart = cart.find((i) => i.menuId === menuId && (i.variant || '') === variant);
+                const qty = Number(inCart?.qty || 0);
+
+                if (qty > 0) {
+                  return (
+                    <div className="qty-stepper menu-qty-stepper" aria-label="Quantity">
+                      <button
+                        type="button"
+                        aria-label="Decrease quantity"
+                        onClick={() => decrementOrRemove(menuId, variant)}
+                        disabled={isLoading}
+                      >
+                        -
+                      </button>
+                      <span aria-label="Quantity value">{qty}</span>
+                      <button
+                        type="button"
+                        aria-label="Increase quantity"
+                        onClick={() => addToCart(item)}
+                        disabled={isLoading}
+                      >
+                        +
+                      </button>
+                    </div>
+                  );
+                }
+
+                return (
+                  <button className="add-to-cart-btn" onClick={() => addToCart(item)} disabled={isLoading}>
+                    <i className="fa-solid fa-plus"></i> Add
+                  </button>
+                );
+              })()}
             </div>
           ))}
 

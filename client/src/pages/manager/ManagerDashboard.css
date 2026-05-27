@@ -136,3 +136,64 @@
 .rank { width: 30px; color: #444; font-size: 14px; }
 .name { flex: 1; color: #ccc; font-size: 15px; }
 .count { color: #ff4d24; font-weight: 700; }
+
+html[data-theme="light"] .label{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .sub-val{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .box-header h3{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .rank{
+  color: var(--app-muted);
+}
+
+html[data-theme="light"] .name{
+  color: var(--app-text);
+}
+
+.dash-loading,
+.dash-error,
+.dash-empty{
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #94a3b8;
+}
+
+.dash-error{
+  color: #ef4444;
+}
+
+@media (max-width: 1100px){
+  .stats-container{
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .main-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px){
+  .stats-container{
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .stat-card{
+    padding: 16px;
+  }
+  .val{
+    font-size: 24px;
+  }
+  .box{
+    padding: 16px;
+  }
+  .name{
+    font-size: 14px;
+  }
+}

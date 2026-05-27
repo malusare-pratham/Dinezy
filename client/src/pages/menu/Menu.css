@@ -23,7 +23,7 @@
   margin-bottom: 30px;
 }
 
-.menu-header .header-left {
+.menu-header .menu-header-left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -518,5 +518,34 @@
   .cat-btn{
     padding: 8px 12px;
     font-size: 13px;
+  }
+}
+
+@media (max-width: 420px){
+  .menu-header h1{
+    font-size: 22px;
+  }
+
+  /* Extra-small: stack label/value for cleaner cards */
+  .menu-table td{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .menu-table td::before{
+    flex: 0 0 auto;
+    margin-bottom: 0;
+  }
+
+  .menu-table td > *{
+    text-align: left;
+    width: 100%;
+  }
+
+  .menu-table td.action-icons{
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 18px;
   }
 }

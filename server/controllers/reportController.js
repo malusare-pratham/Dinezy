@@ -3,6 +3,7 @@ import DailyKOTStats from '../models/DailyKOTStats.js';
 import DailyItemSales from '../models/DailyItemSales.js';
 
 import { getISTDateKey } from '../utils/istDate.js';
+import { getUtcRangeForISTDateKey } from '../utils/istDate.js';
 import { rebuildDailyKOTStatsForDateKey } from '../services/dailyKotStatsService.js';
 import { rebuildDailyItemSalesForDateKey } from '../services/dailyItemSalesService.js';
 
@@ -18,14 +19,21 @@ async (
 
   try{
 
-    const today = new Date();
+    const dateKey =
+      getISTDateKey(new Date());
 
-    today.setHours(0,0,0,0);
+    const range =
+      getUtcRangeForISTDateKey(dateKey);
+
+    if(!range){
+      throw new Error('Failed to compute today range');
+    }
 
     const bills = await Bill.find({
 
       createdAt:{
-        $gte:today
+        $gte:range.start,
+        $lt:range.end
       }
 
     });
@@ -40,13 +48,22 @@ async (
 
       );
 
+    const totalTax =
+      bills.reduce(
+        (acc,bill)=>
+          acc + bill.gstAmount,
+        0
+      );
+
     res.status(200).json({
 
       success:true,
 
       totalBills:bills.length,
 
-      totalSales
+      totalSales,
+
+      totalTax
 
     });
 

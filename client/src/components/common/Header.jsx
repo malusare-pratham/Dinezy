@@ -11,7 +11,8 @@ const Header = ({
   onMenuClick,
   notifications = [],
   onClearNotifications,
-  showLogout = true
+  showLogout = true,
+  hideTitlesOnMobile = false
 }) => {
 
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const Header = ({
   };
 
   return (
-    <div className="header">
+    <div className={`header ${hideTitlesOnMobile ? 'hide-titles-mobile' : ''}`}>
       <div className="header-left">
         {typeof onMenuClick === 'function' && (
           <button

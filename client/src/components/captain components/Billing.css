@@ -245,6 +245,9 @@
   padding: 15px 0;
 }
 
+.invoice-table th.text-center { text-align: center; }
+.invoice-table th.text-right { text-align: right; }
+
 .invoice-table td {
   padding: 15px 0;
   font-size: 14px;

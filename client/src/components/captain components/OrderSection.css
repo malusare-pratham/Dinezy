@@ -558,6 +558,13 @@
 
 .total-item-price { font-weight: 800; color: var(--text-main); }
 
+/* Menu card: inline quantity stepper (reuses .qty-stepper styling) */
+.menu-qty-stepper{
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
 .bill-calculations {
   border-top: 1px dashed var(--border-color);
   padding-top: 20px;

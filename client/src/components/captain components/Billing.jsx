@@ -240,9 +240,17 @@ const Billing = ({
     }, 0)
   ),[mergedItems]);
 
+  const computedCgst = useMemo(() => (
+    Number(computedGst || 0) / 2
+  ),[computedGst]);
+
+  const computedSgst = useMemo(() => (
+    Number(computedGst || 0) / 2
+  ),[computedGst]);
+
   const computedTotal = useMemo(() => (
-    computedSubtotal + computedGst
-  ),[computedSubtotal,computedGst]);
+    computedSubtotal + computedCgst + computedSgst
+  ),[computedSubtotal,computedCgst,computedSgst]);
 
   const completeOrder = async () => {
     if(!token) return;
@@ -379,8 +387,12 @@ const Billing = ({
               <span>₹{Number(computedSubtotal || 0).toFixed(2)}</span>
             </div>
             <div className="footer-row">
-              <span>GST</span>
-              <span>₹{Number(computedGst || 0).toFixed(2)}</span>
+              <span>CGST</span>
+              <span>₹{Number(computedCgst || 0).toFixed(2)}</span>
+            </div>
+            <div className="footer-row">
+              <span>SGST</span>
+              <span>₹{Number(computedSgst || 0).toFixed(2)}</span>
             </div>
             <div className="footer-row grand-total-row">
               <span>Grand Total</span>
@@ -400,5 +412,4 @@ const Billing = ({
 };
 
 export default Billing;
-
 

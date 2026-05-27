@@ -294,6 +294,11 @@
   text-align: center;
 }
 
+.tv-captain{
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
 .text-center { text-align: center; }
 .text-right { text-align: right; }
 
@@ -769,6 +774,17 @@
   background: rgba(255,77,36,0.12);
 }
 
+html[data-theme="light"] .pay-option-inline.active{
+  border-color: #ff4d24;
+  background: rgba(255,77,36,0.20);
+  box-shadow: 0 0 0 2px rgba(255,77,36,0.10);
+}
+
+.pay-option-inline:focus-visible{
+  outline: 2px solid rgba(255,77,36,0.75);
+  outline-offset: 2px;
+}
+
 /* Confirm Payment Modal (reused classes) */
 .pay-confirm-overlay {
   position: fixed;
@@ -970,6 +986,11 @@ html[data-theme="light"] .stats span{
   color: var(--app-text);
 }
 
+/* Legend icon colors (FontAwesome may render <i> or replace with <svg>) */
+html[data-theme="light"] .legend .running{ color: #2563eb; }
+html[data-theme="light"] .legend .printed{ color: #16a34a; }
+html[data-theme="light"] .legend .kot{ color: #d97706; }
+
 html[data-theme="light"] .section-tab{
   background: var(--app-surface);
   color: var(--app-text);
@@ -1018,6 +1039,67 @@ html[data-theme="light"] .tv-table-card{
 
 html[data-theme="light"] .tv-table-card.is-available{
   background: var(--app-surface);
+}
+
+html[data-theme="light"] .tv-table-card.is-running{
+  background: rgba(37,99,235,0.10);
+  border-style: solid;
+  border-color: rgba(37,99,235,0.55);
+}
+
+html[data-theme="light"] .tv-table-card.is-billing{
+  background: rgba(22,163,74,0.10);
+  border-style: solid;
+  border-color: rgba(22,163,74,0.55);
+}
+
+html[data-theme="light"] .tv-table-card.is-kot{
+  background: rgba(202,138,4,0.12);
+  border-style: solid;
+  border-color: rgba(202,138,4,0.65);
+}
+
+html[data-theme="light"] .tv-table-card.is-reserved{
+  background: rgba(168,85,247,0.10);
+  border-style: solid;
+  border-color: rgba(168,85,247,0.55);
+}
+
+html[data-theme="light"] .tv-table-card.has-kot{
+  box-shadow: 0 0 0 2px rgba(202,138,4,0.18);
+}
+
+html[data-theme="light"] .tv-table-card:hover{
+  background: var(--app-surface-2);
+  border-color: #ff4d24;
+}
+
+html[data-theme="light"] .tv-table-card.is-running:hover{
+  background: rgba(37,99,235,0.10);
+  border-color: rgba(37,99,235,0.55);
+}
+
+html[data-theme="light"] .tv-table-card.is-billing:hover{
+  background: rgba(22,163,74,0.10);
+  border-color: rgba(22,163,74,0.55);
+}
+
+html[data-theme="light"] .tv-table-card.is-kot:hover{
+  background: rgba(202,138,4,0.12);
+  border-color: rgba(202,138,4,0.65);
+}
+
+html[data-theme="light"] .tv-table-card.is-reserved:hover{
+  background: rgba(168,85,247,0.10);
+  border-color: rgba(168,85,247,0.55);
+}
+
+html[data-theme="light"] .table-info h2{
+  color: var(--app-text);
+}
+
+html[data-theme="light"] .table-info p{
+  color: var(--app-muted);
 }
 
 html[data-theme="light"] .bill-panel{

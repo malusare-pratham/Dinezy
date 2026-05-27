@@ -1,6 +1,6 @@
 ﻿import './TableView.css';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import Sidebar from '../../components/common/Sidebar';
 import Header from '../../components/common/Header';
@@ -98,6 +98,15 @@ const TableView = ({
 
   const [isPayConfirmOpen,setIsPayConfirmOpen] =
     useState(false);
+
+  const payConfirmOkRef = useRef(null);
+  useEffect(() => {
+    if(!isPayConfirmOpen) return;
+    const id = setTimeout(() => {
+      payConfirmOkRef.current?.focus?.();
+    }, 0);
+    return () => clearTimeout(id);
+  }, [isPayConfirmOpen]);
 
   const [sidebarOpen,setSidebarOpen] =
     useState(false);
@@ -563,6 +572,47 @@ const TableView = ({
     return String(firstKot?.captain?.name || '').trim();
   },[selectedTable,kots]);
 
+  const captainNameByTableId = useMemo(() => {
+    const map = new Map();
+
+    for(const kot of (kots || [])){
+      if(kot?.isBilled) continue;
+      const tid = kot?.table ? String(kot.table) : '';
+      if(!tid || map.has(tid)) continue;
+
+      const name =
+        String(
+          kot?.captain?.name ||
+          kot?.captainName ||
+          ''
+        ).trim();
+
+      if(name) map.set(tid, name);
+    }
+
+    for(const t of (tables || [])){
+      const tid = t?._id ? String(t._id) : '';
+      if(!tid) continue;
+
+      const name =
+        String(
+          t?.activeCaptain?.name ||
+          t?.activeCaptainName ||
+          ''
+        ).trim();
+
+      if(name) map.set(tid, name);
+    }
+
+    return map;
+  },[kots, tables]);
+
+  const getCaptainNameForTable = (table) => {
+    const tid = table?._id ? String(table._id) : '';
+    if(!tid) return '';
+    return String(captainNameByTableId.get(tid) || '').trim();
+  };
+
   const getTableClass = (table) => {
     const base = ['tv-table-card'];
 
@@ -608,9 +658,17 @@ const TableView = ({
     }, 0)
   ),[billItems]);
 
+  const computedCgst = useMemo(() => (
+    Number(computedGst || 0) / 2
+  ),[computedGst]);
+
+  const computedSgst = useMemo(() => (
+    Number(computedGst || 0) / 2
+  ),[computedGst]);
+
   const computedTotal = useMemo(() => (
-    computedSubtotal + computedGst
-  ),[computedSubtotal,computedGst]);
+    computedSubtotal + computedCgst + computedSgst
+  ),[computedSubtotal,computedCgst,computedSgst]);
 
   // Keep billNo stable for a selected table (avoid recalculating on re-render)
   const [stableBillNo,setStableBillNo] = useState('');
@@ -899,13 +957,14 @@ const TableView = ({
             table { width:100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
             th { text-align:left; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 8px 0; }
             td { border-bottom: 1px solid #f1f5f9; padding: 8px 0; }
-            .summary { margin-top: 12px; border-top: 1px solid #e2e8f0; padding-top: 10px; font-size: 12px; }
-            .sum-row { display:flex; justify-content:space-between; margin: 6px 0; color:#475569; }
-            .grand { margin-top: 10px; padding-top: 10px; border-top: 1px solid #e2e8f0; font-size: 16px; font-weight: 800; color:#0f172a; }
-          </style>
-        </head>
-        <body>
-          <div class="card">
+             .summary { margin-top: 12px; border-top: 1px solid #e2e8f0; padding-top: 10px; font-size: 12px; }
+             .sum-row { display:flex; justify-content:space-between; margin: 6px 0; color:#475569; }
+             .grand { margin-top: 10px; padding-top: 10px; border-top: 1px solid #e2e8f0; font-size: 16px; font-weight: 800; color:#0f172a; }
+             .thanks { margin-top: 14px; text-align: center; color:#475569; font-size: 12px; font-weight: 700; }
+           </style>
+         </head>
+         <body>
+           <div class="card">
             <div class="restaurant">
               <h2>DINEZY RESTAURANT</h2>
               <p>123 Main Street, City - 400001</p>
@@ -929,16 +988,18 @@ const TableView = ({
               <tbody>
                 ${rows || '<tr><td colspan=\"4\" style=\"text-align:center;color:#64748b;padding:14px 0;\">No items</td></tr>'}
               </tbody>
-            </table>
-            <div class="summary">
-              <div class="sum-row"><span>Subtotal</span><b>₹${Number(computedSubtotal || 0).toFixed(2)}</b></div>
-              <div class="sum-row"><span>GST</span><b>₹${Number(computedGst || 0).toFixed(2)}</b></div>
-              <div class="sum-row grand"><span>Grand Total</span><span>₹${Number(computedTotal || 0).toFixed(2)}</span></div>
-            </div>
-          </div>
-        </body>
-      </html>
-    `;
+             </table>
+             <div class="summary">
+               <div class="sum-row"><span>Subtotal</span><b>₹${Number(computedSubtotal || 0).toFixed(2)}</b></div>
+              <div class="sum-row"><span>CGST</span><b>₹${Number(computedCgst || 0).toFixed(2)}</b></div>
+              <div class="sum-row"><span>SGST</span><b>₹${Number(computedSgst || 0).toFixed(2)}</b></div>
+               <div class="sum-row grand"><span>Grand Total</span><span>₹${Number(computedTotal || 0).toFixed(2)}</span></div>
+             </div>
+             <div class="thanks">Thank you, visit again</div>
+           </div>
+         </body>
+       </html>
+     `;
 
     const iframe = document.createElement('iframe');
     iframe.setAttribute('aria-hidden','true');
@@ -1169,8 +1230,12 @@ const TableView = ({
               <strong>₹{Number(computedSubtotal || 0).toFixed(2)}</strong>
             </div>
             <div className="bill-summary-row">
-              <span>GST</span>
-              <strong>₹{Number(computedGst || 0).toFixed(2)}</strong>
+              <span>CGST</span>
+              <strong>₹{Number(computedCgst || 0).toFixed(2)}</strong>
+            </div>
+            <div className="bill-summary-row">
+              <span>SGST</span>
+              <strong>₹{Number(computedSgst || 0).toFixed(2)}</strong>
             </div>
             <div className="bill-summary-row total">
               <span>Total</span>
@@ -1268,7 +1333,7 @@ const TableView = ({
                   </div>
                   <div className="pay-confirm-row">
                     <span>Method</span>
-                    <strong>{paymentMethod || '-'}</strong>
+                    <strong>{paymentOptions.find((p) => p.id === paymentMethod)?.label || paymentMethod || '-'}</strong>
                   </div>
                   <div className="pay-confirm-total">
                     <span>Amount</span>
@@ -1288,6 +1353,7 @@ const TableView = ({
                     className="pay-confirm-ok"
                     onClick={confirmPayment}
                     disabled={isLoading || !paymentMethod}
+                    ref={payConfirmOkRef}
                   >
                     Payment Complete
                   </button>
@@ -1535,8 +1601,12 @@ const TableView = ({
                     <strong>₹{Number(computedSubtotal || 0).toFixed(2)}</strong>
                   </div>
                   <div className="bill-summary-row">
-                    <span>GST</span>
-                    <strong>₹{Number(computedGst || 0).toFixed(2)}</strong>
+                    <span>CGST</span>
+                    <strong>₹{Number(computedCgst || 0).toFixed(2)}</strong>
+                  </div>
+                  <div className="bill-summary-row">
+                    <span>SGST</span>
+                    <strong>₹{Number(computedSgst || 0).toFixed(2)}</strong>
                   </div>
                   <div className="bill-summary-row total">
                     <span>Total</span>
@@ -1654,6 +1724,7 @@ const TableView = ({
                           className="pay-confirm-ok"
                           onClick={confirmPayment}
                           disabled={isLoading || !paymentMethod}
+                          ref={payConfirmOkRef}
                         >
                           Payment Complete
                         </button>
@@ -1707,7 +1778,13 @@ const TableView = ({
                     </div>
                     <div className="table-info">
                       <h2>{getTableLabel(table)}</h2>
-                      <p>Cap. {table.capacity}</p>
+                      {(table.status === 'RUNNING' || table.status === 'OCCUPIED') && (
+                        (() => {
+                          const name = getCaptainNameForTable(table);
+                          if(!name) return null;
+                          return <p className="tv-captain">{name}</p>;
+                        })()
+                      )}
                     </div>
                   </div>
                 ))}
@@ -1904,8 +1981,12 @@ const TableView = ({
                     <strong>₹{Number(computedSubtotal || 0).toFixed(2)}</strong>
                   </div>
                   <div className="bill-summary-row">
-                    <span>GST</span>
-                    <strong>₹{Number(computedGst || 0).toFixed(2)}</strong>
+                    <span>CGST</span>
+                    <strong>₹{Number(computedCgst || 0).toFixed(2)}</strong>
+                  </div>
+                  <div className="bill-summary-row">
+                    <span>SGST</span>
+                    <strong>₹{Number(computedSgst || 0).toFixed(2)}</strong>
                   </div>
                   <div className="bill-summary-row total">
                     <span>Grand Total</span>
@@ -2007,6 +2088,7 @@ const TableView = ({
                         className="pay-confirm-ok"
                         onClick={confirmPayment}
                         disabled={isLoading || !paymentMethod}
+                        ref={payConfirmOkRef}
                       >
                         Payment Complete
                       </button>

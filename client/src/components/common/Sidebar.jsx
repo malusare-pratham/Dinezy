@@ -4,7 +4,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 const Sidebar = ({
   open = false,
-  onClose
+  onClose,
+  showCloseIcon = false
 }) => {
   const location = useLocation();
 
@@ -74,6 +75,17 @@ const Sidebar = ({
             <h2>Dinezy POS</h2>
             <p>RESTAURANT OS</p>
           </div>
+
+          {showCloseIcon && typeof onClose === 'function' && (
+            <button
+              type="button"
+              className="sidebar-close"
+              onClick={onClose}
+              aria-label="Close sidebar"
+            >
+              <i className="fa-solid fa-xmark"></i>
+            </button>
+          )}
         </div>
 
         <nav className="sidebar-menu">

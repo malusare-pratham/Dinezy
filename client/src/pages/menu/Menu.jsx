@@ -311,7 +311,7 @@ const Menu = () => {
           <div className="menu-container">
       {/* Header Section */}
       <header className="menu-header">
-        <div className="header-left">
+        <div className="menu-header-left">
           <p className="catalog-text">CATALOG</p>
           <h1><i className="fa-solid fa-layer-group"></i> Menu Items</h1>
         </div>
@@ -360,7 +360,7 @@ const Menu = () => {
                 <tr key={m._id}>
                   <td className="item-name" data-label="Item">{m.name}</td>
                   <td data-label="Category">{m.category}</td>
-                  <td className="price-text" data-label="Price">Rs. {Number(m.price || 0).toFixed(2)}</td>
+                   <td className="price-text" data-label="Price">₹{Number(m.price || 0).toFixed(2)}</td>
                   <td data-label="HSN">{m.hsn || '-'}</td>
                   <td data-label="GST">{(m.gst ?? 0)}%</td>
                   <td data-label="Type">
@@ -397,8 +397,10 @@ const Menu = () => {
               <button
                 className="menu-modal-close"
                 onClick={closeModal}
+                type="button"
+                aria-label="Close"
               >
-                X
+                <i className="fa-solid fa-xmark"></i>
               </button>
             </div>
 

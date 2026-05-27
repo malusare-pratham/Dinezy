@@ -248,9 +248,27 @@
     margin-bottom: 12px;
   }
 
-  /* Mobile: remove the 3 header text lines (scoped to TableList header only) */
+  /* Mobile: keep header texts visible, but compact */
   .tablelist-header .header-left{
-    display: none;
+    display: block;
+    width: 100%;
+  }
+
+  .tablelist-header .breadcrumb{
+    margin-bottom: 4px;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+  }
+
+  .tablelist-header h1{
+    font-size: 24px;
+    line-height: 1.1;
+  }
+
+  .tablelist-header .sub-text{
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.2;
   }
 
   .back-sections-btn{
