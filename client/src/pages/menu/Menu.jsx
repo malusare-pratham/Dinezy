@@ -351,8 +351,14 @@ const Menu = () => {
           <tbody>
             {isLoading ? (
               <tr>
-                <td colSpan="8">
+                <td className="menu-table-status" colSpan="8">
                   Loading...
+                </td>
+              </tr>
+            ) : filteredMenus.length === 0 ? (
+              <tr>
+                <td className="menu-table-status" colSpan="8">
+                  No menu items found
                 </td>
               </tr>
             ) : (
@@ -360,7 +366,7 @@ const Menu = () => {
                 <tr key={m._id}>
                   <td className="item-name" data-label="Item">{m.name}</td>
                   <td data-label="Category">{m.category}</td>
-                   <td className="price-text" data-label="Price">₹{Number(m.price || 0).toFixed(2)}</td>
+                  <td className="price-text" data-label="Price">&#8377;{Number(m.price || 0).toFixed(2)}</td>
                   <td data-label="HSN">{m.hsn || '-'}</td>
                   <td data-label="GST">{(m.gst ?? 0)}%</td>
                   <td data-label="Type">
@@ -540,7 +546,7 @@ const Menu = () => {
                         onClick={() => removeSubCategory(s)}
                         title="Remove"
                       >
-                        {s} <span className="subcat-remove">×</span>
+                        {s} <span className="subcat-remove">&times;</span>
                       </button>
                     ))}
                   </div>
