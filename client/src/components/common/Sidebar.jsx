@@ -38,6 +38,10 @@ const Sidebar = ({
       ? '/kitchen'
       : '/kitchen-display';
 
+  const shouldShowCloseIcon =
+    typeof onClose === 'function' &&
+    (showCloseIcon || open);
+
   const menuItems = [
     { name: 'Dashboard', icon: 'fa-solid fa-chart-line', path: dashboardPath },
     { name: 'POS Terminal', icon: 'fa-solid fa-desktop' },
@@ -76,7 +80,7 @@ const Sidebar = ({
             <p>RESTAURANT OS</p>
           </div>
 
-          {showCloseIcon && typeof onClose === 'function' && (
+          {shouldShowCloseIcon && (
             <button
               type="button"
               className="sidebar-close"
