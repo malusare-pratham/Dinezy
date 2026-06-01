@@ -166,8 +166,8 @@ const OrderSection = ({
 
     for(const kot of (existingKots || [])){
       const status = String(kot?.status || '').toUpperCase();
-      // Show in "Previous Items" only after Kitchen marks READY.
-      if(status !== 'READY') continue;
+      // Keep ready/completed, unbilled KOTs visible until billing closes them.
+      if(status !== 'READY' && status !== 'COMPLETED') continue;
       for(const it of (kot?.items || [])){
         const name = String(it?.name || '').trim();
         const price = Number(it?.price || 0);
